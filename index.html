@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Text Editor</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="editor-container">
+        <div id="toolbar">
+            <button onclick="document.execCommand('bold')"><b>B</b></button>
+            <button onclick="document.execCommand('underline')"><u>U</u></button>
+            <button onclick="document.execCommand('foreColor', false, 'red')" style="color: red"><b>Ctrl + R</b></button>
+            <button onclick="document.execCommand('foreColor', false, 'darkgreen')" style="color:green"><b>Ctrl + G</b></button>
+            <button onclick="document.execCommand('foreColor', false, 'white')">Fonte padrão</button>
+            <button onclick="document.execCommand('undo')">Desfazer</button>
+            <button onclick="document.execCommand('redo')">Refazer</button>
+            <button onclick="toggleFullscreen()">Tela cheia</button>
+        </div>
+        <div id="editor" contenteditable="true"></div>
+    </div>
+    <div id="right-panel">
+        <input type="text" placeholder="Nome do paciente">
+        <input type="text" placeholder="Diagnóstico principal">
+        <input type="text" placeholder="Especialidade alvo">
+        <input type="text" placeholder="Motivo do encaminhamento">
+        <textarea>
+À UBS,
+
+Sugiro encaminhamento do(a) paciente [Nome do paciente], com diagnóstico de [Diagnóstico principal], para a especialidade [Especialidade alvo], devido a [Motivo do encaminhamento].
+
+Grato(a)!
+        </textarea>
+        <button onclick="copyTextareaContent()">Copiar</button>
+    </div>
+
+    <script>
+        function toggleFullscreen() {
+            const editor = document.getElementById('editor');
+            if (!document.fullscreenElement) {
+                editor.requestFullscreen().catch(err => {
+                    console.error(`Error attempting to enable fullscreen mode: ${err.message}`);
+                });
+            } else {
+                document.exitFullscreen();
+            }
+        }
+    </script>
+    <script>
+            const inputs = document.querySelectorAll('#right-panel input');
+            const textarea = document.querySelector('#right-panel textarea');
+
+            inputs.forEach(input => {
+                input.addEventListener('input', () => {
+                    const nome = document.querySelector('input[placeholder="Nome do paciente"]').value;
+                    const diagnostico = document.querySelector('input[placeholder="Diagnóstico principal"]').value;
+                    const especialidade = document.querySelector('input[placeholder="Especialidade alvo"]').value;
+                    const motivo = document.querySelector('input[placeholder="Motivo do encaminhamento"]').value;
+
+                    textarea.value = ` UBS,\n\nSugiro encaminhamento do(a) paciente ${nome}, com diagnóstico de ${diagnostico}, para a especialidade ${especialidade}, devido a ${motivo}.\n\nGrato(a)!`;
+                });
+            });
+        </script>
+    <script>
+        function copyTextareaContent() {
+            const textarea = document.querySelector('#right-panel textarea');
+            textarea.select();
+            document.execCommand('copy');
+        }
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>
