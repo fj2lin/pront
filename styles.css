@@ -57,6 +57,7 @@ button {
     font-size: 14px;
     border: 1px solid #000000;
     border-radius: 0px;
+    padding: 5px;
 }
 
 #right-panel textarea {
@@ -64,4 +65,8 @@ button {
     resize: none;
     font-family: Arial;
     flex-shrink: 0;
+}
+
+.right-panel-button {
+    padding: 10px;
 }
